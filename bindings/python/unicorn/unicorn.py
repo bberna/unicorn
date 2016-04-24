@@ -256,6 +256,12 @@ class Uc(object):
                 if status != uc.UC_ERR_OK:
                     raise UcError(status)
                 return reg.mantissa, reg.exponent
+            if reg_id in range(x86_const.UC_X86_REG_XMM0, x86_const.UC_X86_REG_XMM0+16):
+                reg = (ctypes.c_byte * 16)()
+                status = _uc.uc_reg_read(self._uch, reg_id, ctypes.byref(reg))
+                if status != uc.UC_ERR_OK:
+                    raise UcError(status)
+                return list(reg)
 
         # read to 64bit number to be safe
         reg = ctypes.c_int64(0)
@@ -280,6 +286,14 @@ class Uc(object):
                 reg = uc_x86_float80()
                 reg.mantissa = value[0]
                 reg.exponent = value[1]
+            if reg_id in range(x86_const.UC_X86_REG_XMM0, x86_const.UC_X86_REG_XMM0+16):
+                assert isinstance(value, list) and len(value) == 16
+                reg = (ctypes.c_byte * 16)(*value)
+                status = _uc.uc_reg_write(self._uch, reg_id, ctypes.byref(reg))
+                if status != uc.UC_ERR_OK:
+                    raise UcError(status)
+                return list(reg)
+
 
         if reg is None:
             # convert to 64bit number to be safe
