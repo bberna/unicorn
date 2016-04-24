@@ -195,7 +195,7 @@ int x86_reg_read(struct uc_struct *uc, unsigned int *regs, void **vals, int coun
                     *(uint16_t*) value = fptag; 
                 }
                 continue;
-        }
+         }
 
         switch(uc->mode) {
             default:
@@ -348,6 +348,30 @@ int x86_reg_read(struct uc_struct *uc, unsigned int *regs, void **vals, int coun
                         ((uc_x86_mmr *)value)->base = (uint32_t)X86_CPU(uc, mycpu)->env.tr.base;
                         ((uc_x86_mmr *)value)->selector = (uint16_t)X86_CPU(uc, mycpu)->env.tr.selector;
                         ((uc_x86_mmr *)value)->flags = X86_CPU(uc, mycpu)->env.tr.flags;
+                        break;
+                    case UC_X86_REG_XMM0:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[0];
+                        break;
+                    case UC_X86_REG_XMM1:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[1];
+                        break;
+                    case UC_X86_REG_XMM2:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[2];
+                        break;
+                    case UC_X86_REG_XMM3:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[3];
+                        break;
+                    case UC_X86_REG_XMM4:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[4];
+                        break;
+                    case UC_X86_REG_XMM5:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[5];
+                        break;
+                    case UC_X86_REG_XMM6:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[6];
+                        break;
+                    case UC_X86_REG_XMM7:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[7];
                         break;
                 }
                 break;
@@ -617,6 +641,55 @@ int x86_reg_read(struct uc_struct *uc, unsigned int *regs, void **vals, int coun
                         ((uc_x86_mmr *)value)->selector = (uint16_t)X86_CPU(uc, mycpu)->env.tr.selector;
                         ((uc_x86_mmr *)value)->flags = X86_CPU(uc, mycpu)->env.tr.flags;
                         break;
+
+                    case UC_X86_REG_XMM0:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[0];
+                        break;
+                    case UC_X86_REG_XMM1:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[1];
+                        break;
+                    case UC_X86_REG_XMM2:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[2];
+                        break;
+                    case UC_X86_REG_XMM3:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[3];
+                        break;
+                    case UC_X86_REG_XMM4:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[4];
+                        break;
+                    case UC_X86_REG_XMM5:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[5];
+                        break;
+                    case UC_X86_REG_XMM6:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[6];
+                        break;
+                    case UC_X86_REG_XMM7:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[7];
+                        break;
+                    case UC_X86_REG_XMM8:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[8];
+                        break;
+                    case UC_X86_REG_XMM9:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[9];
+                        break;
+                    case UC_X86_REG_XMM10:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[10];
+                        break;
+                    case UC_X86_REG_XMM11:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[11];
+                        break;
+                    case UC_X86_REG_XMM12:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[12];
+                        break;
+                    case UC_X86_REG_XMM13:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[13];
+                        break;
+                    case UC_X86_REG_XMM14:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[14];
+                        break;
+                    case UC_X86_REG_XMM15:
+                        *(XMMReg *)value = X86_CPU(uc,mycpu)->env.xmm_regs[15];
+                        break;
                 }
                 break;
 #endif
@@ -828,6 +901,31 @@ int x86_reg_write(struct uc_struct *uc, unsigned int *regs, void *const *vals, i
                         X86_CPU(uc, mycpu)->env.tr.selector = (uint16_t)((uc_x86_mmr *)value)->selector;
                         X86_CPU(uc, mycpu)->env.tr.flags = ((uc_x86_mmr *)value)->flags;
                         break;
+                    case UC_X86_REG_XMM0:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[0] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM1:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[1] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM2:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[2] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM3:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[3] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM4:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[4] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM5:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[5] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM6:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[6] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM7:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[7] = *(XMMReg *)value;
+                        break;
+
                 }
                 break;
 
@@ -1105,6 +1203,54 @@ int x86_reg_write(struct uc_struct *uc, unsigned int *regs, void *const *vals, i
                         X86_CPU(uc, mycpu)->env.tr.base = ((uc_x86_mmr *)value)->base;
                         X86_CPU(uc, mycpu)->env.tr.selector = (uint16_t)((uc_x86_mmr *)value)->selector;
                         X86_CPU(uc, mycpu)->env.tr.flags = ((uc_x86_mmr *)value)->flags;
+                        break;
+                    case UC_X86_REG_XMM0:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[0] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM1:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[1] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM2:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[2] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM3:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[3] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM4:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[4] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM5:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[5] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM6:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[6] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM7:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[7] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM8:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[8] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM9:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[9] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM10:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[10] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM11:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[11] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM12:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[12] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM13:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[13] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM14:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[14] = *(XMMReg *)value;
+                        break;
+                    case UC_X86_REG_XMM15:
+                        X86_CPU(uc,mycpu)->env.xmm_regs[15] = *(XMMReg *)value;
                         break;
                 }
                 break;
